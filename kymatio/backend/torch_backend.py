@@ -186,8 +186,8 @@ def cdgmm(A, B, inplace=False):
 
     type_checks(A)
 
-    if A.shape[-len(B.shape):-1] != B.shape[:-1]:
-        raise RuntimeError('The filters are not compatible for multiplication.')
+    #if A.shape[-len(B.shape):-1] != B.shape[:-1]:
+    #    raise RuntimeError('The filters are not compatible for multiplication.')
 
     if A.dtype is not B.dtype:
         raise TypeError('Input and filter must be of the same dtype.')

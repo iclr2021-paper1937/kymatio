@@ -1,4 +1,5 @@
 import torch
+import copy
 
 from .base_frontend import ScatteringBase2D
 from ...scattering2d.core.scattering2d import scattering2d
@@ -33,7 +34,7 @@ class ScatteringTorch2D(ScatteringTorch, ScatteringBase2D):
             if not isinstance(c, int):
                 continue
 
-            self.phi[c] = self.register_single_filter(phi, n)
+            self.register_single_filter(phi, n)
             n = n + 1
 
         for j in range(len(self.psi)):
@@ -41,7 +42,7 @@ class ScatteringTorch2D(ScatteringTorch, ScatteringBase2D):
                 if not isinstance(k, int):
                     continue
 
-                self.psi[j][k] = self.register_single_filter(v, n)
+                self.register_single_filter(v, n)
                 n = n + 1
 
     def load_single_filter(self, n, buffer_dict):
@@ -55,7 +56,7 @@ class ScatteringTorch2D(ScatteringTorch, ScatteringBase2D):
 
         n = 0
 
-        phis = self.phi
+        phis = copy.deepcopy(self.phi)
         for c, phi in phis.items():
             if not isinstance(c, int):
                 continue
@@ -63,7 +64,7 @@ class ScatteringTorch2D(ScatteringTorch, ScatteringBase2D):
             phis[c] = self.load_single_filter(n, buffer_dict)
             n = n + 1
 
-        psis = self.psi
+        psis = copy.deepcopy(self.psi)
         for j in range(len(psis)):
             for k, v in psis[j].items():
                 if not isinstance(k, int):
